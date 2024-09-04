@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>News List</title>
+</head>
+<body>
+<h1>類別 -
+    <span th:text="${category}"></span>
+</h1>
+<ul>
+    <li th:each="news : ${newsList}">
+        <h2 th:text="${news.title}">News Title</h2>
+        <p th:text="${news.content}">News Content</p>
+        <span th:text="${news.date}">Date</span>
+    </li>
+</ul>
+</body>
+</html>
