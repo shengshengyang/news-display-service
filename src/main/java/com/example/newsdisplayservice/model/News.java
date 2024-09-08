@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,4 +20,8 @@ public class News {
     private String content;
     private String category;
     private LocalDate date;
+
+    // 新增與 Summary 的多對多關聯
+    @ManyToMany(mappedBy = "newsSources")
+    private Set<Summery> summaries;
 }
