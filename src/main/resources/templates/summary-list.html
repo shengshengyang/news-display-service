@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Summary List</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #262626;
+      margin-bottom: 20px;
+    }
+
+    .date-section {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 1.5em;
+      color: #0095f6;
+      border-bottom: 2px solid #0095f6;
+      padding-bottom: 10px;
+    }
+
+    .summary {
+      margin: 15px 0;
+    }
+
+    .summary h3 {
+      font-size: 1.2em;
+      color: #333;
+    }
+
+    .summary p {
+      font-size: 0.95em;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .news-button {
+      background-color: #0095f6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+
+    .news-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .news-list li {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .news-list h4 {
+      font-size: 1.1em;
+      color: #333;
+    }
+
+    .news-list p {
+      font-size: 0.9em;
+      color: #666;
+    }
+
+    .news-list a {
+      color: #0095f6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .news-list a:hover {
+      text-decoration: underline;
+    }
+
+    .news-date {
+      font-size: 0.85em;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>每日新聞統整</h1>
+
+  <ul>
+    <li th:each="entry : ${summariesByDate}" class="date-section">
+      <h2 th:text="${entry.key}">Date</h2> <!-- 顯示日期 -->
+
+      <ul>
+        <li th:each="summary : ${entry.value}" class="summary">
+          <h3 th:text="${summary.generatedAt}">Generated At</h3>
+          <p th:text="${summary.summaryText}">Summary Text</p>
+
+          <!-- Dropdown button for related news -->
+          <button type="button" class="news-button" th:onclick="|toggleNews(${summary.id})|">Show Related News</button>
+
+          <!-- Related News (Dropdown) -->
+          <ul th:id="${summary.id}" class="news-list" style="display: none">
+            <li th:each="news : ${summary.newsSources}">
+              <h4 th:text="${news.title}">News Title</h4>
+              <p th:text="${#strings.abbreviate(news.summary, 150)}">News Summary</p>
+              <p th:text="${news.content}">News Content</p>
+              <a th:href="${news.link}" th:text="${news.link}">Read More</a>
+              <span class="news-date" th:text="${news.date}">Date</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<script>
+  function toggleNews(id) {
+    let element = document.getElementById(id);
+    if (element.style.display === "none") {
+      element.style.display = "block";
+    } else {
+      element.style.display = "none";
+    }
+  }
+</script>
+</body>
+</html>

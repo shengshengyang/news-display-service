@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+  <title>News Summary</title>
+</head>
+<body>
+<h1>統整內容</h1>
+<h2 th:text="${summary.summaryText}">Summary Text</h2>
+<p>統整生成時間: <span th:text="${summary.generatedAt}">Generated At</span></p>
+
+<h3>來源新聞：</h3>
+<ul>
+  <li th:each="news : ${summary.newsSources}">
+    <h4 th:text="${news.title}">News Title</h4>
+    <p th:text="${news.content}">News Content</p>
+    <span th:text="${news.date}">Date</span>
+    <span th:text="${news.category}">Category</span>
+  </li>
+</ul>
+</body>
+</html>

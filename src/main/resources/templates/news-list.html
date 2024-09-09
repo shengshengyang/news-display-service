@@ -7,13 +7,26 @@
     <title>News List</title>
 </head>
 <body>
-<h1>類別 -
-    <span th:text="${category}"></span>
-</h1>
+<h1>類別 - <span th:text="${category}"></span></h1>
 <ul>
     <li th:each="news : ${newsList}">
         <h2 th:text="${news.title}">News Title</h2>
+
+        <!-- 縮略的新聞摘要 -->
+        <p th:text="${#strings.abbreviate(news.summary, 150)}">News Summary</p>
+
+        <!-- 顯示完整內容 -->
         <p th:text="${news.content}">News Content</p>
+
+        <!-- 顯示圖片 (如果有) -->
+        <div th:if="${news.imageUrl}">
+            <img th:src="${news.imageUrl}" alt="News Image" style="max-width: 400px;">
+        </div>
+
+        <!-- 新聞鏈接 -->
+        <a th:href="${news.link}" th:text="${news.link}">Read More</a>
+
+        <!-- 新聞日期 -->
         <span th:text="${news.date}">Date</span>
     </li>
 </ul>

@@ -12,4 +12,6 @@ public interface NewsRepository extends JpaRepository<News, Long> {
     List<News> findByCategoryAndDate(String category, LocalDate date);
 
     List<News> findByCategory(String category);
+
+    List<News> findBySummaries_Id(Long summaryId);
 }
