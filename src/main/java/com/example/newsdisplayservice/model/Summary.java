@@ -16,7 +16,7 @@ public class Summary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "summary_text", nullable = false)
+    @Column(name = "summary_text", columnDefinition = "MEDIUMTEXT", nullable = false)
     private String summaryText;
 
     @Column(name = "generated_at", nullable = false)

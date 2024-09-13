@@ -15,7 +15,7 @@
 <ul>
   <li th:each="news : ${summary.newsSources}">
     <h4 th:text="${news.title}">News Title</h4>
-    <p th:text="${news.content}">News Content</p>
+    <p th:text="${news.summary}">News Content</p>
     <span th:text="${news.date}">Date</span>
     <span th:text="${news.category}">Category</span>
   </li>
