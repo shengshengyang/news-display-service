@@ -5,104 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Summary List</title>
   <script src="https://cdn.jsdelivr.net/npm/marked@3.0.7/marked.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #262626;
-      margin-bottom: 20px;
-    }
-    .date-section {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    h2 {
-      font-size: 1.5em;
-      color: #0095f6;
-      border-bottom: 2px solid #0095f6;
-      padding-bottom: 10px;
-    }
-    .summary {
-      margin: 15px 0;
-    }
-    .summary h3 {
-      font-size: 1.2em;
-      color: #333;
-    }
-    .news-button {
-      background-color: #0095f6;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 1em;
-      margin-top: 10px;
-    }
-    .news-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .news-list li {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .news-list h4 {
-      font-size: 1.1em;
-      color: #333;
-    }
-    .news-list p {
-      font-size: 0.9em;
-      color: #666;
-    }
-    .news-list a {
-      color: #0095f6;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .news-list a:hover {
-      text-decoration: underline;
-    }
-    .news-date {
-      font-size: 0.85em;
-      color: #999;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="container">
-  <h1>每日新聞統整</h1>
+<body class="bg-gray-100 text-gray-900">
+
+<div class="container mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6 text-center">每日新聞統整</h1>
 
   <ul>
-    <li th:each="entry : ${summariesByDate}" class="date-section">
-      <h2 th:text="${entry.key}">Date</h2> <!-- 顯示日期 -->
+    <li th:each="entry : ${summariesByDate}" class="mb-8">
+      <h2 class="text-2xl font-semibold mb-4 text-blue-700" th:text="${entry.key}">Date</h2> <!-- 顯示日期 -->
 
-      <ul>
-        <li th:each="summary : ${entry.value}" class="summary">
-          <h3 th:text="${summary.generatedAt}">Generated At</h3>
+      <ul class="space-y-4">
+        <li th:each="summary : ${entry.value}" class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-xl font-medium mb-2 text-gray-800" th:text="${summary.generatedAt}">Generated At</h3>
 
           <!-- Markdown Summary -->
-          <div class="markdown-content" th:id="'markdown-' + ${summary.id}"></div>
+          <div class="prose max-w-none markdown-content" th:id="'markdown-' + ${summary.id}"></div>
 
           <!-- 存儲原始 Markdown 文本，用於 JavaScript 處理 -->
           <script type="text/javascript" th:inline="javascript">
@@ -114,15 +33,15 @@
           </script>
 
           <!-- Dropdown button for related news -->
-          <button type="button" class="news-button" th:onclick="|toggleNews(${summary.id})|">Show Related News</button>
+          <button type="button" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition" th:onclick="|toggleNews(${summary.id})|">顯示相關新聞</button>
 
           <!-- Related News (Dropdown) -->
-          <ul th:id="${summary.id}" class="news-list" style="display: none">
-            <li th:each="news : ${summary.newsSources}">
-              <h4 th:text="${news.title}">News Title</h4>
-              <p th:text="${news.summary}">News Summary</p>
-              <a th:href="${news.link}" th:text="${news.link}">Read More</a>
-              <span class="news-date" th:text="${news.date}">Date</span>
+          <ul th:id="${summary.id}" class="news-list mt-4 hidden space-y-4">
+            <li th:each="news : ${summary.newsSources}" class="bg-gray-50 p-4 rounded shadow">
+              <h4 class="text-lg font-semibold text-blue-600 mb-1" th:text="${news.title}">News Title</h4>
+              <p class="text-gray-700 mb-2" th:text="${news.summary}">News Summary</p>
+              <a th:href="${news.link}" class="text-blue-500 underline" th:text="${news.link}">Read More</a>
+              <span class="block text-gray-500 text-sm mt-1" th:text="${news.date}">Date</span>
             </li>
           </ul>
         </li>

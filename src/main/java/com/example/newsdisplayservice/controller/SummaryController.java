@@ -2,6 +2,7 @@ package com.example.newsdisplayservice.controller;
 
 import com.example.newsdisplayservice.model.Summary;
 import com.example.newsdisplayservice.repository.SummaryRepository;
+import com.example.newsdisplayservice.service.SummaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,8 @@ public class SummaryController {
 
     @Autowired
     SummaryRepository summaryRepository;
+    @Autowired
+    SummaryService summaryService;
 
     // 顯示單一統整新聞的頁面
     @GetMapping("/summary/{id}")
@@ -30,12 +33,7 @@ public class SummaryController {
     // 顯示每日統整列表的頁面
     @GetMapping("/summaries")
     public String viewSummariesByDate(Model model) {
-        List<Summary> summaries = summaryRepository.findAll();
-
-        // 按日期分組，忽略時間部分
-        Map<LocalDate, List<Summary>> summariesByDate = summaries.stream()
-                .collect(Collectors.groupingBy(Summary::getGeneratedAt));  // 將 Timestamp 轉換為 LocalDate
-
+        Map<LocalDate, List<Summary>> summariesByDate = summaryService.getSummariesGroupedByDate();
         model.addAttribute("summariesByDate", summariesByDate);
         return "summary-list";
     }
